@@ -13,7 +13,7 @@ type RegisterRepoImpl struct {
 
 func (s RegisterRepoImpl) GetAllRegisters() ([]*models.Register, error) {
 	dataRegister := []*models.Register{}
-	query := "select * from register"
+	query := constantaQuery.GETALLREGISTER
 	data, err := s.db.Query(query)
 	if err != nil {
 		return nil, err

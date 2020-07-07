@@ -2,11 +2,11 @@ package constantaQuery
 
 const (
 	//karyawan permanen
-	GETALLREGISTER     = "SELECT * FROM register"
-	GETREGISTERBYUNAME = "SELECT * FROM register WHERE username= ?"
-	GETADDREGISTER     = "INSERT INTO register VALUES (?,?,?,?,?,?)"
-	GETUPDATEREGISTER  = "UPDATE register SET  email=?, full_name=?, phone_number=?, password=? WHERE username=?"
-	GETDELETEREGISTER  = "DELETE FROM Register WHERE username=?"
+	GETALLREGISTER     = "SELECT * FROM registrasi"
+	GETREGISTERBYUNAME = "SELECT * FROM registrasi WHERE username= ?"
+	GETADDREGISTER     = "INSERT INTO registrasi VALUES (?,?,?,?,?,?)"
+	GETUPDATEREGISTER  = "UPDATE registrasi SET  email=?, full_name=?, phone_number=?, password=? WHERE username=?"
+	GETDELETEREGISTER  = "DELETE FROM registrasi WHERE username=?"
 
 	GETALLARTICLE    = "SELECT * FROM article"
 	GETARTICLEBYID   = "SELECT * FROM article WHERE id=?"
