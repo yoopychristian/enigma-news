@@ -25,25 +25,16 @@ func ArticleController(r *mux.Router, service usecases.ArticleUseCase) {
 	auth.HandleFunc("", handler.NewAuthenticationHandler().Handler).Methods(http.MethodPost)
 	// auth.HandleFunc("/tokenValidation", handler.NewTokenValidationHandler().Handler).Methods(http.MethodGet)
 
-	art := r.PathPrefix("/articles").Subrouter()
-	art.Use(middleware.TokenValidationMiddleware)
-	art.HandleFunc("", ArticleHandler.ListArticles).Methods(http.MethodGet)
+	articles := r.PathPrefix("/articles").Subrouter()
+	articles.Use(middleware.TokenValidationMiddleware)
+	articles.HandleFunc("", ArticleHandler.ListArticles).Methods(http.MethodGet)
 
-	art2 := r.PathPrefix("/article{Id}").Subrouter()
-	art2.Use(middleware.TokenValidationMiddleware)
-	art2.HandleFunc("", ArticleHandler.GetArticleID).Methods(http.MethodGet)
-
-	art3 := r.PathPrefix("/article").Subrouter()
-	art3.Use(middleware.TokenValidationMiddleware)
-	art3.HandleFunc("", ArticleHandler.CreateDataArticles).Methods(http.MethodPost)
-
-	art4 := r.PathPrefix("/article").Subrouter()
-	art4.Use(middleware.TokenValidationMiddleware)
-	art4.HandleFunc("", ArticleHandler.UpdateDataArticles).Methods(http.MethodPut)
-
-	art5 := r.PathPrefix("/article{Id}").Subrouter()
-	art5.Use(middleware.TokenValidationMiddleware)
-	art5.HandleFunc("", ArticleHandler.DeleteDataArticles).Methods(http.MethodDelete)
+	article := r.PathPrefix("/article").Subrouter()
+	article.Use(middleware.TokenValidationMiddleware)
+	article.HandleFunc("/{id}", ArticleHandler.GetArticleID).Methods(http.MethodGet)
+	article.HandleFunc("/add", ArticleHandler.CreateDataArticles).Methods(http.MethodPost)
+	article.HandleFunc("/update/{id}", ArticleHandler.UpdateDataArticles).Methods(http.MethodPut)
+	article.HandleFunc("/delete{id}", ArticleHandler.DeleteDataArticles).Methods(http.MethodDelete)
 
 }
 
