@@ -16,6 +16,7 @@ func (s RegisterRepoImpl) GetAllRegisters() ([]*models.Register, error) {
 	query := constantaQuery.GETALLREGISTER
 	data, err := s.db.Query(query)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	for data.Next() {
@@ -33,6 +34,7 @@ func (s RegisterRepoImpl) GetRegistersID(Username string) (*models.Register, err
 	register := new(models.Register)
 	query := constantaQuery.GETREGISTERBYUNAME
 	if err := s.db.QueryRow(query, Username).Scan(&register.Id, &register.Email, &register.Fullname, &register.Phonenumber, &register.Username, &register.Password); err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	return register, nil
@@ -41,6 +43,7 @@ func (s RegisterRepoImpl) GetRegistersID(Username string) (*models.Register, err
 func (s RegisterRepoImpl) CreateRegisters(register models.Register) error {
 	tx, err := s.db.Begin()
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	query := constantaQuery.GETADDREGISTER
@@ -48,13 +51,15 @@ func (s RegisterRepoImpl) CreateRegisters(register models.Register) error {
 	stmt, err := s.db.Prepare(query)
 	if err != nil {
 		tx.Rollback()
+		log.Println(err)
 		log.Fatal(err)
 		return err
 	}
 	defer stmt.Close()
 
-	if _, err := stmt.Exec(register.Id, register.Email, register.Phonenumber, register.Username, register.Password); err != nil {
+	if _, err := stmt.Exec(register.Id, register.Email, register.Fullname, register.Phonenumber, register.Username, register.Password); err != nil {
 		tx.Rollback()
+		log.Println(err)
 		log.Fatalf("%v", err)
 		return err
 	}
@@ -64,6 +69,7 @@ func (s RegisterRepoImpl) CreateRegisters(register models.Register) error {
 func (s RegisterRepoImpl) UpdateRegisters(register models.Register) error {
 	tx, err := s.db.Begin()
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	query := constantaQuery.GETUPDATEREGISTER
@@ -71,13 +77,15 @@ func (s RegisterRepoImpl) UpdateRegisters(register models.Register) error {
 	stmt, err := s.db.Prepare(query)
 	if err != nil {
 		tx.Rollback()
+		log.Println(err)
 		log.Fatal(err)
 		return err
 	}
 	defer stmt.Close()
 
-	if _, err := stmt.Exec(register.Email, register.Phonenumber, register.Username, register.Password, register.Id); err != nil {
+	if _, err := stmt.Exec(register.Email, register.Fullname, register.Phonenumber, register.Username, register.Password, register.Id); err != nil {
 		tx.Rollback()
+		log.Println(err)
 		log.Fatalf("%v", err)
 		return err
 	}
@@ -87,12 +95,14 @@ func (s RegisterRepoImpl) UpdateRegisters(register models.Register) error {
 func (s RegisterRepoImpl) DeleteRegisters(Username string) error {
 	tx, err := s.db.Begin()
 	if err != nil {
+		log.Println(err)
 		return err
 	}
-	query := constantaQuery.GETUPDATEREGISTER
+	query := constantaQuery.GETDELETEREGISTER
 
 	stmt, err := s.db.Prepare(query)
 	if err != nil {
+		log.Println(err)
 		tx.Rollback()
 		log.Fatal(err)
 		return err
@@ -101,6 +111,7 @@ func (s RegisterRepoImpl) DeleteRegisters(Username string) error {
 
 	if _, err := stmt.Exec(Username); err != nil {
 		tx.Rollback()
+		log.Println(err)
 		log.Fatalf("%v", err)
 		return err
 	}

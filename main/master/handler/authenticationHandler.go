@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/edwardsuwirya/mdw/utils"
+	"enigma-news/main/master/tools"
 )
 
 type authenticationHandler struct {
@@ -17,15 +17,15 @@ func NewAuthenticationHandler() IHandler {
 }
 
 func (h *authenticationHandler) Handler(w http.ResponseWriter, r *http.Request) {
-	var sysUser models.Register
-	json.NewDecoder(r.Body).Decode(&sysUser)
+	var user models.User
+	json.NewDecoder(r.Body).Decode(&user)
 
-	userName := sysUser.Username
-	userPassword := sysUser.Password
+	userName := user.Username
+	userPassword := user.Password
 
 	if userName == "alexcuy" && userPassword == "pwpwpw" {
 		w.WriteHeader(http.StatusOK)
-		token, err := utils.JwtEncoder(userName, "Rahasia dong")
+		token, err := tools.JwtEncoder(userName, "Rahasia")
 		if err != nil {
 			log.Print(err)
 			http.Error(w, "Failed token generation", http.StatusInternalServerError)

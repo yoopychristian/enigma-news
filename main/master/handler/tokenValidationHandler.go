@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"enigma-news/tools"
+	"enigma-news/main/master/tools"
 	"fmt"
 	"net/http"
 )

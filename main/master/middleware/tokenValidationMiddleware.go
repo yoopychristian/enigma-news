@@ -1,11 +1,10 @@
 package middleware
 
 import (
+	"enigma-news/main/master/tools"
 	"fmt"
 	"net/http"
 	"strings"
-
-	"github.com/vivaldy22/middleware-test/tools"
 )
 
 func TokenValidationMiddleware(next http.Handler) http.Handler {

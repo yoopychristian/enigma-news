@@ -13,7 +13,7 @@ func CreateRouter() *mux.Router {
 	return router
 }
 func RunServer(router *mux.Router) {
-	port := "localhost:7000"
+	port := ReadEnv("port", "routing")
 	fmt.Println("Setting Web Server at Port" + port)
 	err := http.ListenAndServe(port, router)
 	if err != nil {

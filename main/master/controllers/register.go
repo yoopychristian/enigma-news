@@ -6,6 +6,7 @@ import (
 	"enigma-news/main/master/response"
 	"enigma-news/main/master/usecases"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -36,6 +37,7 @@ func (s RegisterHandler) ListRegisters(w http.ResponseWriter, r *http.Request) {
 
 	byteOfRegisters, err := json.Marshal(pesan)
 	if err != nil {
+		log.Println(err)
 		w.Write([]byte("Oops something when wrong"))
 	}
 	w.Header().Set("content-type", "application/json")
@@ -47,6 +49,7 @@ func (s RegisterHandler) GetRegistersID(w http.ResponseWriter, r *http.Request) 
 	vars := mux.Vars(r)
 	register, err := s.registerUseCase.GetRegistersID(vars["Username"])
 	if err != nil {
+		log.Println(err)
 		w.Write([]byte("Data Not Found"))
 	}
 
@@ -57,6 +60,7 @@ func (s RegisterHandler) GetRegistersID(w http.ResponseWriter, r *http.Request) 
 
 	byteOfRegisters, err := json.Marshal(pesan)
 	if err != nil {
+		log.Println(err)
 		w.Write([]byte("Oops something when wrong"))
 	}
 	w.Header().Set("Content-Type", "application/json")
@@ -76,6 +80,7 @@ func (s RegisterHandler) CreateDataRegisters(w http.ResponseWriter, r *http.Requ
 
 	byteOfRegisters, err := json.Marshal(pesan)
 	if err != nil {
+		log.Println(err)
 		w.Write([]byte("Oops something when wrong"))
 	}
 	w.Header().Set("Content-Type", "application/json")
@@ -96,6 +101,7 @@ func (s RegisterHandler) UpdateDataRegisters(w http.ResponseWriter, r *http.Requ
 
 	byteOfRegisters, err := json.Marshal(pesan)
 	if err != nil {
+		log.Println(err)
 		w.Write([]byte("Oops something when wrong"))
 	}
 	w.Header().Set("Content-Type", "application/json")
@@ -114,6 +120,7 @@ func (s RegisterHandler) DeleteDataRegisters(w http.ResponseWriter, r *http.Requ
 
 	byteOfRegisters, err := json.Marshal(pesan)
 	if err != nil {
+		log.Println(err)
 		w.Write([]byte("Oops something when wrong"))
 	}
 	w.Header().Set("Content-Type", "application/json")

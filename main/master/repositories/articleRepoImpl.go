@@ -16,12 +16,14 @@ func (s ArticleRepoImpl) GetAllArticle() ([]*models.Article, error) {
 	query := constantaQuery.GETALLARTICLE
 	data, err := s.db.Query(query)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	for data.Next() {
 		article := models.Article{}
 		var err = data.Scan(&article.Id, &article.Title, &article.ArticleText)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		dataArticle = append(dataArticle, &article)
@@ -33,6 +35,7 @@ func (s ArticleRepoImpl) GetArticleID(Id string) (*models.Article, error) {
 	article := new(models.Article)
 	query := constantaQuery.GETARTICLEBYID
 	if err := s.db.QueryRow(query, Id).Scan(&article.Id, &article.Title, &article.ArticleText); err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	return article, nil
@@ -41,6 +44,7 @@ func (s ArticleRepoImpl) GetArticleID(Id string) (*models.Article, error) {
 func (s ArticleRepoImpl) CreateArticle(article models.Article) error {
 	tx, err := s.db.Begin()
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	query := constantaQuery.GETADDARTICLE
@@ -94,6 +98,7 @@ func (s ArticleRepoImpl) DeleteArticle(Id string) error {
 	stmt, err := s.db.Prepare(query)
 	if err != nil {
 		tx.Rollback()
+		log.Println(err)
 		log.Fatal(err)
 		return err
 	}
@@ -101,6 +106,7 @@ func (s ArticleRepoImpl) DeleteArticle(Id string) error {
 
 	if _, err := stmt.Exec(Id); err != nil {
 		tx.Rollback()
+		log.Println(err)
 		log.Fatalf("%v", err)
 		return err
 	}
