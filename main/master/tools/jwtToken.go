@@ -19,7 +19,7 @@ func JwtEncoder(userName, customKey string) (string, error) {
 	claims := jwt.MapClaims{
 		"name":      userName,
 		"customKey": customKey,
-		"expiredAt": expiredDate.Format("2006-01-02 15:04:22"),
+		"expiredAt": expiredDate.Format("2006-01-02 15:04:05"),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString([]byte(hmacSampleSecret))

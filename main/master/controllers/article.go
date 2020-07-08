@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"enigma-news/main/master/handler"
 	"enigma-news/main/master/middleware"
 	"enigma-news/main/master/models"
 	"enigma-news/main/master/response"
@@ -20,9 +19,6 @@ type ArticleHandler struct {
 func ArticleController(r *mux.Router, service usecases.ArticleUseCase) {
 	r.Use(middleware.ActivityLogMiddleware)
 	ArticleHandler := ArticleHandler{service}
-
-	auth := r.PathPrefix("/auth").Subrouter()
-	auth.HandleFunc("", handler.NewAuthenticationHandler().Handler).Methods(http.MethodPost)
 	// auth.HandleFunc("/tokenValidation", handler.NewTokenValidationHandler().Handler).Methods(http.MethodGet)
 
 	articles := r.PathPrefix("/articles").Subrouter()
